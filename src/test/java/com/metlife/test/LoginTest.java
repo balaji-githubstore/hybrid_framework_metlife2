@@ -29,7 +29,7 @@ public class LoginTest extends AutomationWrapper {
     }
 
 
-    @Test(dataProvider = "invalidCredentialData", dataProviderClass = DataUtils.class)
+    @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
     public void invalidCredentialTest(String username, String password, String expectedError) {
 
         driver.findElement(By.name("username")).sendKeys(username);
