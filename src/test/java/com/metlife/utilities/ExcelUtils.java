@@ -1,31 +1,24 @@
-package com.metlife.test;
+package com.metlife.utilities;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class Demo1Excel {
+public class ExcelUtils {
 
-    public static void main(String[] args) throws IOException {
+    public static Object[][] getSheetIntoTwoDimensionalArray(String fileDetail,String sheetName) throws IOException {
 
-        //location
-        FileInputStream file = new FileInputStream("test-data/orange_data.xlsx");
-
-        //open
+        FileInputStream file = new FileInputStream(fileDetail);
         XSSFWorkbook book = new XSSFWorkbook(file);
-
-        //sheet
-        XSSFSheet sheet = book.getSheet("invalidCredentialTest");
+        XSSFSheet sheet = book.getSheet(sheetName);
 
         int rowCount=sheet.getPhysicalNumberOfRows();
         int cellCount=sheet.getRow(0).getPhysicalNumberOfCells();
 
         Object[][] main=new Object[rowCount-1][cellCount];
 
-        //r,c used for reading from excel
         for (int r = 1; r < rowCount; r++) {
             for (int c = 0; c < cellCount; c++) {
                 String value = sheet.getRow(r).getCell(c).getStringCellValue();
@@ -33,7 +26,8 @@ public class Demo1Excel {
                 main[r-1][c]=value;
             }
         }
-
-        System.out.println();
+        return main;
     }
+
+
 }
