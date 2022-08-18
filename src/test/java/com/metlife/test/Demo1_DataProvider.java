@@ -2,8 +2,8 @@ package com.metlife.test;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-public class Demo1 {
+//will be deleted
+public class Demo1_DataProvider {
 
     @DataProvider
     public Object[][] validData() {
