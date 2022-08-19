@@ -3,6 +3,7 @@ package com.metlife.test;
 import com.aventstack.extentreports.Status;
 import com.metlife.base.AutomationWrapper;
 import com.metlife.pages.LoginPage;
+import com.metlife.pages.MainPage;
 import com.metlife.utilities.DataUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -11,23 +12,23 @@ import org.testng.annotations.Test;
 public class LoginTest extends AutomationWrapper {
 
     @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
-    public void validCredentialTest(String username,String password,String expectedValue) {
+    public void validCredentialTest(String username, String password, String expectedValue) {
 
-        LoginPage.enterUsername(driver,username);
-        LoginPage.enterPassword(driver,password);
+        LoginPage.enterUsername(driver, username);
+        LoginPage.enterPassword(driver, password);
         LoginPage.clickOnLogin(driver);
 
-        String actualValue = driver.findElement(By.xpath("//*[contains(text(),'Employee List')]")).getText();
+        String actualValue = MainPage.getAdminMenuText(driver);
         Assert.assertTrue(actualValue.contains(expectedValue)); //must be true
     }
 
     @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
     public void invalidCredentialTest(String username, String password, String expectedError) {
 
-        LoginPage.enterUsername(driver,username);
+        LoginPage.enterUsername(driver, username);
         test.log(Status.INFO, "Entered Username :" + username);
 
-        LoginPage.enterPassword(driver,password);
+        LoginPage.enterPassword(driver, password);
         test.log(Status.INFO, "Entered password :" + password);
 
         LoginPage.clickOnLogin(driver);
