@@ -17,44 +17,38 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 
 public class AutomationWrapper {
-   protected WebDriver driver;
+    protected WebDriver driver;
 
-   private static ExtentReports extent;
+    private static ExtentReports extent;
 
-   protected static ExtentTest test;
+    protected static ExtentTest test;
 
-   @BeforeSuite
-   public void init()
-   {
-       if(extent ==null)
-       {
-           extent = new ExtentReports();
-           ExtentSparkReporter spark = new ExtentSparkReporter("target/Spark.html");
-           extent.attachReporter(spark);
-       }
-   }
+    @BeforeSuite
+    public void init() {
+        if (extent == null) {
+            extent = new ExtentReports();
+            ExtentSparkReporter spark = new ExtentSparkReporter("target/Spark.html");
+            extent.attachReporter(spark);
+        }
+    }
 
-   @AfterSuite
-   public void end()
-   {
-       extent.flush();
-   }
+    @AfterSuite
+    public void end() {
+        extent.flush();
+    }
 
 
     @BeforeMethod
     @Parameters({"browser"})
-    public void setup(@Optional("edge") String browserName, Method method)
-    {
-        test= extent.createTest(method.getName());
+    public void setup(@Optional("edge") String browserName, Method method) {
+        test = extent.createTest(method.getName());
 
-        if(browserName.equalsIgnoreCase("ch"))
-        {
+        if (browserName.equalsIgnoreCase("ch")) {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
         } else if (browserName.equalsIgnoreCase("ie")) {
 
-        }
-        else {
+        } else {
             WebDriverManager.edgedriver().setup();
             driver = new EdgeDriver();
         }
