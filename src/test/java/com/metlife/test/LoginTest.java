@@ -23,9 +23,9 @@ public class LoginTest extends AutomationWrapper {
         driver.findElement(By.name("password")).sendKeys("admin123");
         driver.findElement(By.xpath("//button[normalize-space()='Login']")).click();
         //get the Quick Launch Text
-        String actualValue = driver.findElement(By.xpath("//*[contains(text(),'Quick')]")).getText();
+        String actualValue = driver.findElement(By.xpath("//*[contains(text(),'Employee List')]")).getText();
 
-        Assert.assertTrue(actualValue.contains("Quick Launch")); //must be true
+        Assert.assertTrue(actualValue.contains("Employee List")); //must be true
     }
 
 
