@@ -1,18 +1,11 @@
 package com.metlife.test;
 
+import com.aventstack.extentreports.Status;
 import com.metlife.base.AutomationWrapper;
 import com.metlife.utilities.DataUtils;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 public class LoginTest extends AutomationWrapper {
 
@@ -28,15 +21,19 @@ public class LoginTest extends AutomationWrapper {
         Assert.assertTrue(actualValue.contains("Employee List")); //must be true
     }
 
-
     @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
     public void invalidCredentialTest(String username, String password, String expectedError) {
 
         driver.findElement(By.name("username")).sendKeys(username);
+        test.log(Status.INFO,"Entered Username :"+username);
         driver.findElement(By.name("password")).sendKeys(password);
+        test.log(Status.INFO,"Entered password :"+password);
         driver.findElement(By.xpath("//button[normalize-space()='Login']")).click();
+        test.log(Status.INFO,"Clicked on Login");
 
         String actualError = driver.findElement(By.xpath("//div[@role='alert']")).getText();
+
+        test.log(Status.INFO,"Actual Error: "+actualError);
         Assert.assertEquals(actualError, expectedError);
     }
 }
