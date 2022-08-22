@@ -2,7 +2,7 @@ package com.metlife.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
+//static page objects
 public class LoginPage {
 
     private static By usernameLocator = By.name("username");
