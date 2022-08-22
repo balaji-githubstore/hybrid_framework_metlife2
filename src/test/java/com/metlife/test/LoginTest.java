@@ -14,27 +14,33 @@ public class LoginTest extends AutomationWrapper {
     @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
     public void validCredentialTest(String username, String password, String expectedValue) {
 
-        LoginPage.enterUsername(driver, username);
-        LoginPage.enterPassword(driver, password);
-        LoginPage.clickOnLogin(driver);
+        LoginPage loginPage=new LoginPage(driver);
 
-        String actualValue = MainPage.getAdminMenuText(driver);
+        loginPage.enterUsername(username);
+        loginPage.enterPassword(password);
+        loginPage.clickOnLogin();
+
+        MainPage mainPage=new MainPage(driver);
+        String actualValue = mainPage.getAdminMenuText();
+
         Assert.assertTrue(actualValue.contains(expectedValue)); //must be true
     }
 
     @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
     public void invalidCredentialTest(String username, String password, String expectedError) {
 
-        LoginPage.enterUsername(driver, username);
+        LoginPage loginPage=new LoginPage(driver);
+
+        loginPage.enterUsername(username);
         test.log(Status.INFO, "Entered Username :" + username);
 
-        LoginPage.enterPassword(driver, password);
+        loginPage.enterPassword( password);
         test.log(Status.INFO, "Entered password :" + password);
 
-        LoginPage.clickOnLogin(driver);
+        loginPage.clickOnLogin();
         test.log(Status.INFO, "Clicked on Login");
 
-        String actualError = LoginPage.getInvalidErrorMessage(driver);
+        String actualError = loginPage.getInvalidErrorMessage();
 
         test.log(Status.INFO, "Actual Error: " + actualError);
         Assert.assertEquals(actualError, expectedError);

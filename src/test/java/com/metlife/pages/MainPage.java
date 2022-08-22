@@ -4,14 +4,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class MainPage {
-    private static By adminLocator=By.xpath("//span[text()='Admin']");
+    private By adminLocator=By.xpath("//span[text()='Admin']");
 
-    public static void clickOnAdminMenu(WebDriver driver)
+    private WebDriver driver;
+
+    public MainPage(WebDriver driver)
+    {
+        this.driver=driver;
+    }
+
+    public void clickOnAdminMenu()
     {
         driver.findElement(adminLocator).click();
     }
 
-    public static String getAdminMenuText(WebDriver driver)
+    public String getAdminMenuText()
     {
         return driver.findElement(adminLocator).getText();
     }
