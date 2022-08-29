@@ -11,22 +11,31 @@ import org.testng.annotations.Test;
 
 public class LoginTest extends AutomationWrapper {
 
-    @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
+    @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class,groups = {"login","high"})
     public void validCredentialTest(String username, String password, String expectedValue) {
 
-        LoginPage loginPage=new LoginPage(driver);
+      try {
+          LoginPage loginPage=new LoginPage(driver);
 
-        loginPage.enterUsername(username);
-        loginPage.enterPassword(password);
-        loginPage.clickOnLogin();
+          loginPage.enterUsername(username);
+          loginPage.enterPassword(password);
+          loginPage.clickOnLogin();
 
-        MainPage mainPage=new MainPage(driver);
-        String actualValue = mainPage.getAdminMenuText();
+          MainPage mainPage=new MainPage(driver);
+          String actualValue = mainPage.getAdminMenuText();
 
-        Assert.assertTrue(actualValue.contains(expectedValue)); //must be true
+          Assert.assertTrue(actualValue.contains(expectedValue)); //must be true
+      }
+      catch (Exception e)
+      {
+          System.out.println(e.getMessage());
+          Assert.fail(); //mandatory if you handle exception on @Test method
+      }
+
+
     }
 
-    @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class)
+    @Test(dataProvider = "commonDataProvider", dataProviderClass = DataUtils.class,groups = {"login","high"})
     public void invalidCredentialTest(String username, String password, String expectedError) {
 
         LoginPage loginPage=new LoginPage(driver);

@@ -15,7 +15,8 @@ public class MainPage {
 
     public void clickOnAdminMenu()
     {
-        driver.findElement(adminLocator).click();
+               driver.findElement(adminLocator).click();
+
     }
 
     public String getAdminMenuText()

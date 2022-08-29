@@ -6,6 +6,7 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.metlife.utilities.PropUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,9 +14,11 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
+@Listeners({TestNGListeners.class})
 public class AutomationWrapper {
     protected WebDriver driver;
 
@@ -23,7 +26,7 @@ public class AutomationWrapper {
 
     protected static ExtentTest test;
 
-    @BeforeSuite
+    @BeforeSuite(alwaysRun = true)
     public void init() {
         if (extent == null) {
             extent = new ExtentReports();
@@ -32,15 +35,15 @@ public class AutomationWrapper {
         }
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void end() {
         extent.flush();
     }
 
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     @Parameters({"browser"})
-    public void setup(@Optional("edge") String browserName, Method method) {
+    public void setup(@Optional("edge") String browserName, Method method) throws IOException {
         test = extent.createTest(method.getName());
 
         if (browserName.equalsIgnoreCase("ch")) {
@@ -55,7 +58,9 @@ public class AutomationWrapper {
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("https://opensource-demo.orangehrmlive.com/");
+
+        String baseUrl= PropUtils.getValue("url");
+        driver.get(baseUrl);
     }
 
     @AfterMethod(alwaysRun = true)
